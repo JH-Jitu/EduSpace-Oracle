@@ -94,9 +94,9 @@ if ($_SESSION["authEvent"] == "login") {
             if (password_verify($password, $user['PASSWORD'])) {
                 // Password is correct, start a session and store user data in $_SESSION superglobal array
                 // session_start();
-                $_SESSION['name'] = $user['name'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['username'] = $user['username'];
+                $_SESSION['name'] = $user['NAME'];
+                $_SESSION['email'] = $user['EMAIL'];
+                $_SESSION['username'] = $user['USERNAME'];
 
                 // Redirect to a welcome page
 

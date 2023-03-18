@@ -107,7 +107,7 @@
                     <a class="registration_btn" href="./../../../ProjectOracle/Controller/UserController.php">Logout</a>
                     <span>
                         <a style="color:var(--darkText);" href="./../../../ProjectOracle/View/Pages/profile.php">
-                            <?php echo $userData['name'] ?>
+                            <?php echo $userData['NAME'] ?>
                         </a>
                     </span>
                     <?php
