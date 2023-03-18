@@ -38,7 +38,7 @@
     <div class="navbar-container">
         <div class="navbar container">
             <div class="logo">
-                <a href="/Project"><img src="./../../../Project/View/Assets/logo.svg" alt="" /></a>
+                <a href="/ProjectOracle"><img src="./../../../ProjectOracle/View/Assets/logo.svg" alt="" /></a>
             </div>
             <!-- Add an icon to toggle the menu -->
             <div class="icon" onclick="toggleMenu()">
@@ -48,22 +48,23 @@
             <!-- Wrap the links in a div with an id -->
             <div id="menu" class="quick-links">
                 <ul>
-                    <a class="nav_link <?= $page == 'index.php' ? 'active' : 'nav_link'; ?>" href="/Project">Home</a>
+                    <a class="nav_link <?= $page == 'index.php' ? 'active' : 'nav_link'; ?>"
+                        href="/ProjectOracle">Home</a>
 
                     <a class="nav_link <?= $page == 'about.php' ? 'active' : 'nav_link'; ?>"
-                        href="./../../../Project/View/Pages/about.php">About</a>
+                        href="./../../../ProjectOracle/View/Pages/about.php">About</a>
 
                     <a class="nav_link <?= $page == 'courses.php' ? 'active' : 'nav_link'; ?>"
-                        href="./../../../Project/View/Pages/courses.php">courses</a>
+                        href="./../../../ProjectOracle/View/Pages/courses.php">courses</a>
 
                     <a class="nav_link <?= $page == 'audioBook.php' ? 'active' : 'nav_link'; ?>"
-                        href="./../../../Project/View/Pages/audioBook.php">audioBook</a>
+                        href="./../../../ProjectOracle/View/Pages/audioBook.php">audioBook</a>
 
                     <a class="nav_link <?= $page == 'podcast.php' ? 'active' : 'nav_link'; ?>"
-                        href="./../../../Project/View/Pages/podcast.php">podcast</a>
+                        href="./../../../ProjectOracle/View/Pages/podcast.php">podcast</a>
 
                     <a class="nav_link <?= $page == 'dashboard.php' ? 'active' : 'nav_link'; ?>"
-                        href="./../../../Project/View/Pages/dashboard.php">Dashboard</a>
+                        href="./../../../ProjectOracle/View/Pages/dashboard.php">Dashboard</a>
                 </ul>
             </div>
             <!-- Move the auth links inside the menu div -->
@@ -76,8 +77,8 @@
                 <?php
                 if (empty($_COOKIE['loggedUser'])) {
                     ?>
-                    <a class="login_btn" href="./../../../Project/View/Pages/login.php">Login</a>
-                    <a class="registration_btn" href="./../../../Project/View/Pages/registration.php">Registration</a>
+                    <a class="login_btn" href="./../../../ProjectOracle/View/Pages/login.php">Login</a>
+                    <a class="registration_btn" href="./../../../ProjectOracle/View/Pages/registration.php">Registration</a>
 
                     <?php
                 } else {
@@ -103,9 +104,9 @@
 
                     $_SESSION["authEvent"] = "logout";
                     ?>
-                    <a class="registration_btn" href="./../../../Project/Controller/UserController.php">Logout</a>
+                    <a class="registration_btn" href="./../../../ProjectOracle/Controller/UserController.php">Logout</a>
                     <span>
-                        <a style="color:var(--darkText);" href="./../../../Project/View/Pages/profile.php">
+                        <a style="color:var(--darkText);" href="./../../../ProjectOracle/View/Pages/profile.php">
                             <?php echo $userData['name'] ?>
                         </a>
                     </span>

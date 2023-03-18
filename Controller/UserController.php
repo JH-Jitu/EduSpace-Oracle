@@ -75,18 +75,23 @@ if ($_SESSION["authEvent"] == "login") {
         $password = $_SESSION['password'];
 
         // Prepare a SQL statement to select user data from the database
-        $sql = "SELECT * FROM users WHERE email = '$email'";
+        $sql = "SELECT * FROM users WHERE email = :email";
         // Execute the SQL statement and store the result in a variable
-        $result = mysqli_query($conn, $sql);
+        $result = oci_parse($conn2, $sql);
+
+        // Bind the parameter
+        oci_bind_by_name($result, ':email', $email);
         // echo $result;
-
+        oci_execute($result);
         // Check if the result contains any rows
-        if (mysqli_num_rows($result) > 0) {
+        if ($row = oci_fetch_array($result, OCI_ASSOC)) {
             // Fetch the user data as an associative array
-            $user = mysqli_fetch_assoc($result);
-
+            $user = $row;
+            foreach ($user as $key => $value) {
+                echo $key . ": " . $value . "<br>";
+            }
             // Verify the password using password_verify() function
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user['PASSWORD'])) {
                 // Password is correct, start a session and store user data in $_SESSION superglobal array
                 // session_start();
                 $_SESSION['name'] = $user['name'];
@@ -105,8 +110,8 @@ if ($_SESSION["authEvent"] == "login") {
                 header("Location: ./../index.php");
             } else {
                 // Password is incorrect, display an error message
-                header("Location: ./../View/Pages/login.php?error=Wrong password.");
-                echo "Wrong password.";
+                // header("Location: ./../View/Pages/login.php?error=Wrong password.");
+                // echo "Wrong password.";
             }
         } else {
             // No user found with that username, display an error message
@@ -149,27 +154,37 @@ if (
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Prepare a SQL statement to insert user data into the database 
-        $sql = "INSERT INTO users (name, email, username, password) VALUES ('$name', '$email', '$username', '$hashed_password')";
+        $sql = "INSERT INTO users (name, email, username, password) VALUES (:name, :email, :username, :hashed_password)";
 
-        // Execute the SQL statement and check if it was successful 
-        if (mysqli_query($conn, $sql)) {
-            // User data inserted successfully, display a success message 
+        // Prepare the SQL statement
+        $stmt = oci_parse($conn2, $sql);
+
+        // Bind the parameters
+        oci_bind_by_name($stmt, ':name', $name);
+        oci_bind_by_name($stmt, ':email', $email);
+        oci_bind_by_name($stmt, ':username', $username);
+        oci_bind_by_name($stmt, ':hashed_password', $hashed_password);
+
+        // Execute the SQL statement and check if it was successful
+        if (oci_execute($stmt)) {
+            // User data inserted successfully, display a success message
 
             $_SESSION["authEvent"] = "";
             // echo "User registered successfully.";
-            $sqlLogin = "SELECT * FROM users WHERE email = '$email'";
-            $result = mysqli_query($conn, $sqlLogin);
-            if (mysqli_num_rows($result) > 0) {
-                $user = mysqli_fetch_assoc($result);
+            $sqlLogin = "SELECT * FROM users WHERE email = :email";
+            $stmt = oci_parse($conn2, $sqlLogin);
+            oci_bind_by_name($stmt, ':email', $email);
+            oci_execute($stmt);
+            if (oci_fetch($stmt)) {
+                $user = oci_fetch_assoc($stmt);
                 setDataCookie($user);
             }
 
             header("Location: ./../View/Pages/profile.php");
 
-
         } else {
             // User data insertion failed, display an error message 
-            echo "Error: " . mysqli_error($conn);
+            echo "Error: User Registration failed!" . oci_error();
         }
     }
 }
