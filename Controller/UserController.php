@@ -110,7 +110,7 @@ if ($_SESSION["authEvent"] == "login") {
                 header("Location: ./../index.php");
             } else {
                 // Password is incorrect, display an error message
-                // header("Location: ./../View/Pages/login.php?error=Wrong password.");
+                header("Location: ./../View/Pages/login.php?error=Wrong password.");
                 // echo "Wrong password.";
             }
         } else {
@@ -169,21 +169,22 @@ if (
         if (oci_execute($stmt)) {
             // User data inserted successfully, display a success message
 
-            $_SESSION["authEvent"] = "";
             // echo "User registered successfully.";
             $sqlLogin = "SELECT * FROM users WHERE email = :email";
             $stmt = oci_parse($conn2, $sqlLogin);
             oci_bind_by_name($stmt, ':email', $email);
             oci_execute($stmt);
-            if (oci_fetch($stmt)) {
-                $user = oci_fetch_assoc($stmt);
+            if ($row = oci_fetch_array($stmt, OCI_ASSOC)) {
+                $user = $row;
                 setDataCookie($user);
             }
 
+            $_SESSION["authEvent"] = "";
             header("Location: ./../View/Pages/profile.php");
 
         } else {
             // User data insertion failed, display an error message 
+            header("Location: ./../View/Pages/registration.php?error=Error: User Registration failed! Email already exists.");
             echo "Error: User Registration failed!" . oci_error();
         }
     }

@@ -95,6 +95,29 @@ if (empty($_COOKIE['loggedUser'])) {
             border-radius: 50%;
             border: 2px solid var(--text);
         }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .profile_section {
+                grid-template-columns: 1fr;
+                width: 80%;
+                height: auto;
+            }
+
+            .profile_details form button {
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            .profile_image {
+                display: flex;
+                justify-content: center;
+            }
+
+            .profile_image img {
+                width: 150px;
+            }
+        }
     </style>
 </head>
 
@@ -106,13 +129,13 @@ if (empty($_COOKIE['loggedUser'])) {
                 <form>
                     <h1 style="color:var(--text)">Profile Information</h1>
                     <label for="name">Name</label>
-                    <input value="<?php echo $userData['name'] ?>" type="text" name="name" />
+                    <input value="<?php echo $userData['NAME'] ?>" type="text" name="name" />
 
                     <label for="username">User Name</label>
-                    <input value="<?php echo $userData['username'] ?>" type="text" name="username" />
+                    <input value="<?php echo $userData['USERNAME'] ?>" type="text" name="username" />
 
                     <label for="email">Email</label>
-                    <input value="<?php echo $userData['email'] ?>" type="email" name="email" />
+                    <input value="<?php echo $userData['EMAIL'] ?>" type="email" name="email" />
 
                     <label for="password">Current Password</label>
                     <input type="password" name="password" />

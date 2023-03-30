@@ -487,34 +487,36 @@ require_once './../../Controller/db_connect.php';
             <div class="slider-container">
                 <div class="slider-track">
                     <?php
-                    // select all records from the courses table
-                    $sql = "SELECT * FROM recommended_courses JOIN courses ON recommended_courses.course_id = courses.course_id";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
+                    $sql = "SELECT * FROM courses INNER JOIN recommended_courses ON recommended_courses.course_id = courses.course_id";
+                    $result = oci_parse($conn2, $sql);
+                    oci_execute($result);
+                    if ($result) {
+                        while ($row = oci_fetch_array($result, OCI_ASSOC)) {
                             ?>
                             <div class="course-card recommended">
                                 <div class="course-details">
                                     <h3>
-                                        <?php echo $row['course_name']; ?>
+                                        <?php echo isset($row['COURSE_NAME']) ? $row['COURSE_NAME'] : ''; ?>
                                     </h3>
                                     <div class="courseImg">
-                                        <img src="<?php echo $row['course_image']; ?>" alt="<?php echo $row['course_name']; ?>">
+                                        <img src="<?php echo isset($row['COURSE_IMAGE']) ? $row['COURSE_IMAGE'] : ''; ?>"
+                                            alt="<?php echo isset($row['COURSE_NAME']) ? $row['COURSE_NAME'] : ''; ?>">
                                     </div>
                                     <p>
                                         Instructor:
-                                        <?php echo $row['instructor_name']; ?>
+                                        <?php echo isset($row['INSTRUCTOR_NAME']) ? $row['INSTRUCTOR_NAME'] : ''; ?>
                                     </p>
                                     <p>
                                         Rating:
-                                        <?php echo $row['rating']; ?>⭐
+                                        <?php echo isset($row['RATING']) ? $row['RATING'] . '⭐' : ''; ?>
                                     </p>
                                     <p>
                                         Fee: BDT
-                                        <?php echo $row['course_fee']; ?>
+                                        <?php echo isset($row['COURSE_FEE']) ? $row['COURSE_FEE'] : ''; ?>
                                     </p>
-                                    <a href="showCourseDetails.php?course_id=<?php echo $row['course_id'] ?>">Let's Explore</a>
+                                    <a
+                                        href="showCourseDetails.php?course_id=<?php echo isset($row['COURSE_ID']) ? $row['COURSE_ID'] : ''; ?>">Let's
+                                        Explore</a>
                                 </div>
                             </div>
                             <?php
@@ -523,6 +525,9 @@ require_once './../../Controller/db_connect.php';
                         echo "No records found";
                     }
                     ?>
+
+
+
                 </div>
                 <div class="slider-buttons">
                     <div class="slider-button slider-button-left" onclick="moveSlider(-1)">

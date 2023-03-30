@@ -121,27 +121,28 @@ require_once './../../Controller/db_connect.php';
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 try {
                     $course_id = $_POST['course_id'];
-
+                    echo "this is ", $_POST['course_id'];
                     // Insert the course_id into the recommended_courses table
-                    $query = "INSERT INTO recommended_courses (course_id) VALUES (?)";
-                    $stmt = mysqli_prepare($conn, $query);
-                    mysqli_stmt_bind_param($stmt, 'i', $course_id);
-                    mysqli_stmt_execute($stmt);
+                    $query = "INSERT INTO recommended_courses (course_id) VALUES (:course_id)";
+                    $stmt = oci_parse($conn2, $query);
+                    oci_bind_by_name($stmt, ':course_id', $course_id);
+                    oci_execute($stmt);
 
                     // Check if the insert was successful
-                    if (mysqli_stmt_affected_rows($stmt) > 0) {
+                    if (oci_num_rows($stmt) > 0) {
                         echo "Course added as a recommended course.";
                     } else {
                         echo 'Failed to add course as a recommended course';
                     }
-                } catch (mysqli_sql_exception $e) {
-                    if ($e->getCode() == 1062) { // check for duplicate key error code
+                } catch (Exception $e) {
+                    if ($e->getCode() == 1) { // check for duplicate key error code
                         echo "Course already exists as recommended course";
                     } else {
                         echo "An error occurred: " . $e->getMessage();
                     }
                 }
             }
+
 
             ?>
 
@@ -155,19 +156,22 @@ require_once './../../Controller/db_connect.php';
                     // Connect to the database
                     
                     // Query the courses table
-                    $query = "SELECT course_id, course_name FROM courses";
-                    $result = mysqli_query($conn, $query);
+                    $sql = "SELECT course_id, course_name FROM courses";
+                    $result = oci_parse($conn2, $sql);
+                    oci_execute($result);
 
                     // Loop through the results and create an option for each course
-                    while ($row = mysqli_fetch_assoc($result)) {
+                    while ($row = oci_fetch_array($result, OCI_ASSOC)) {
                         ?>
-                        <option value="<?php echo $row['course_id'] ?>"><?php echo $row['course_name'] ?></option>
+                        <option value="<?php echo $row['COURSE_ID']; ?>"><?php echo $row['COURSE_NAME']; ?></option>
                         <?php
                     }
 
                     // Close the database connection
-                    mysqli_close($conn);
+                    oci_free_statement($result);
+                    oci_close($conn2);
                     ?>
+
                 </select>
                 <br />
                 <button class="recommended_course_button" type="submit">Add Recommended Course</button>

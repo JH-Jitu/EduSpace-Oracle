@@ -129,11 +129,29 @@ require_once './../../Controller/db_connect.php';
                                     ?>
                                 </span>
                                 <br> <br>
+
+                                <span class="error">
+                                    <?php if (isset($_GET['error'])) {
+                                        ?>
+                                        <p class="error">
+                                            <?php echo $_GET['error']; ?>
+                                        </p>
+                                        <?php
+                                    } else {
+                                        echo "";
+                                        ?>
+
+                                        <?php
+                                    }
+                                    ?>
+                                </span>
+                                <br />
                                 <div class="submit-btn">
                                     <input class="auth-submit-button" type="submit" name="submit" value="Register">
                                 </div>
                                 <br /> <br />
                                 <p>Already have an account? <a href="login.php">Login here</a>.</p>
+
                             </form>
                         </div>
                     </div>

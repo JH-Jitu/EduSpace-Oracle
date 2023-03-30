@@ -86,16 +86,16 @@
             <!-- Wrap the links in a div with an id -->
             <div id="menu" class="dashboard_quick_links">
                 <a class="<?= $page === 'dashboard.php' ? 'drawer_active' : 'drawer_nav_link'; ?>"
-                    href="./../../../Project/View/Pages/dashboard.php">Dashboard</a>
+                    href="./../../../ProjectOracle/View/Pages/dashboard.php">Dashboard</a>
 
                 <a class="<?= $page === 'addCourses.php' ? 'drawer_active' : 'drawer_nav_link'; ?>"
-                    href="./../../../Project/View/Pages/addCourses.php">Add Course</a>
+                    href="./../../../ProjectOracle/View/Pages/addCourses.php">Add Course</a>
 
                 <a class="<?= $page === 'addRecommendedCourse.php' ? 'drawer_active' : 'drawer_nav_link'; ?>"
-                    href="./../../../Project/View/Pages/addRecommendedCourse.php">Add Recommended Course</a>
+                    href="./../../../ProjectOracle/View/Pages/addRecommendedCourse.php">Add Recommended Course</a>
 
                 <a class="<?= $page === 'addCoupon.php' ? 'drawer_active' : 'drawer_nav_link'; ?>"
-                    href="./../../../Project/View/Pages/addCoupon.php">Add Coupone</a>
+                    href="./../../../ProjectOracle/View/Pages/addCoupon.php">Add Coupone</a>
             </div>
         </div>
     </div>
